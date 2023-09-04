@@ -1,6 +1,5 @@
-package com.jocelinoafonsofernandes.splayer.ui.theme.screens.album
+package com.jocelinoafonsofernandes.splayer.ui.theme.screens.playlist
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,35 +10,21 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.jocelinoafonsofernandes.splayer.data.entities.Album
 import com.jocelinoafonsofernandes.splayer.data.entities.Music
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
+import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.MusicContainerB
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
-import com.jocelinoafonsofernandes.splayer.ui.theme.screens.album.local_components.AlbumContainer
-import com.jocelinoafonsofernandes.splayer.ui.theme.screens.album.local_components.AlbumOptions
-import com.jocelinoafonsofernandes.splayer.ui.theme.screens.playlist.localComponents.PlaylistContainer
+import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
+
 
 @Composable
-fun AlbumScreen(album: Album) {
+fun PlayList() {
     Column(
         Modifier
             .fillMaxSize()
             .background(costumeTheme().primaryContainer)
     ) {
-        AlbumContainer(
-            album = Album(
-                title = "Mansion",
-                artist = "NF",
-                year = "2016",
-                tracks = 10,
-                minutes = 60
-
-            )
-        )
-        AlbumOptions(album)
         Spacer(modifier = Modifier.height(20.dp))
         LazyColumn(
             Modifier
@@ -49,7 +34,7 @@ fun AlbumScreen(album: Album) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(10) {
-                PlaylistContainer(
+                MusicContainerB(
                     music = Music(
                         title = "The search",
                         artist = "NF",
@@ -60,7 +45,6 @@ fun AlbumScreen(album: Album) {
                         onPause = {},
                     )
                 )
-
                 Spacer(modifier = Modifier.height(10.dp))
             }
         }
@@ -71,21 +55,8 @@ fun AlbumScreen(album: Album) {
 }
 
 
-@Preview(
-    name = "Album",
-    device = Devices.PIXEL_3,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showSystemUi = true
-)
+@Preview
 @Composable
-fun AlbumPreview() {
-    AlbumScreen(
-        album = Album(
-            title = "Mansion",
-            artist = "NF",
-            year = "2016",
-            tracks = 12,
-            minutes = 120
-        )
-    )
+fun PlayListPreview() {
+    PlayList()
 }

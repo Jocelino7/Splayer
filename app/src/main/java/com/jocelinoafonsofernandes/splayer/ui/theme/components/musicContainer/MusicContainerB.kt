@@ -1,13 +1,11 @@
-package com.jocelinoafonsofernandes.splayer.ui.theme.components.MusicContainer
+package com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer
 
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,8 +31,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jocelinoafonsofernandes.splayer.R
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.CostumeTheme
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.MusicContainer.callbacks.MusicContainerCallback
+import com.jocelinoafonsofernandes.splayer.data.entities.Music
+import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
+import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.UnknownAlbum
 
 @Composable
@@ -45,7 +44,7 @@ fun MusicContainerB(
     Card(
         Modifier.padding(2.dp),
         colors = CardDefaults.cardColors(
-            containerColor = CostumeTheme().primaryContainer,
+            containerColor = costumeTheme().primaryContainer,
         ),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 2.dp
@@ -61,7 +60,7 @@ fun MusicContainerB(
             Text(
                 text = "01",
                 modifier = Modifier.padding(horizontal=2.dp),
-                color = CostumeTheme().textBold,
+                color = costumeTheme().textBold,
                 textAlign = TextAlign.Center,
                 maxLines=1,
                 overflow = TextOverflow.Ellipsis
@@ -91,21 +90,21 @@ fun MusicContainerB(
                     text = music.title,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = CostumeTheme().textBold,
+                    color = costumeTheme().textBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = music.duration,
                     fontWeight = FontWeight.Bold,
-                    color = CostumeTheme().textBold
+                    color = costumeTheme().textBold
                 )
             }
             IconButton(onClick = callback.onMoreButtonClick) {
                 Icon(
                     imageVector = Icons.Rounded.MoreVert,
                     contentDescription = stringResource(id = R.string.more_option),
-                    tint = CostumeTheme().textBold
+                    tint = costumeTheme().textBold
                 )
             }
 
