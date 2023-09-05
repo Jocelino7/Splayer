@@ -1,4 +1,5 @@
-package com.jocelinoafonsofernandes.splayer.ui.theme.components.MusicContainer
+package com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer
+
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -8,11 +9,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.PauseCircle
-import androidx.compose.material.icons.rounded.SkipNext
-import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -27,29 +28,37 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jocelinoafonsofernandes.splayer.R
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.CostumeTheme
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.MusicContainer.callbacks.MusicContainerCallback
+import com.jocelinoafonsofernandes.splayer.data.entities.Music
+import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
+import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.UnknownAlbum
 
+
+
+
 @Composable
-fun MusicPlayingContainer(
+fun MusicContainer(
     music: Music,
     callback: MusicContainerCallback
 ) {
     Card(
         Modifier.padding(2.dp),
         colors = CardDefaults.cardColors(
-            containerColor = CostumeTheme().primaryContainer
+            containerColor = costumeTheme().primaryContainer,
+        ),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 2.dp
         )
     ) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .heightIn(max = 80.dp),
+                .heightIn(max = 60.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
@@ -59,6 +68,7 @@ fun MusicPlayingContainer(
                     contentDescription = stringResource(id = R.string.album_cover),
                     modifier = Modifier
                         .fillMaxHeight()
+                        .width(80.dp)
                         .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Fit
                 )
@@ -74,14 +84,14 @@ fun MusicPlayingContainer(
                     text = music.title,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = CostumeTheme().textBold,
+                    color = costumeTheme().textBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = music.artist,
                     fontWeight = FontWeight.Bold,
-                    color = CostumeTheme().textBold
+                    color = costumeTheme().textBold
                 )
             }
             Row(
@@ -93,28 +103,28 @@ fun MusicPlayingContainer(
             ) {
 
                 IconButton(
-                    onClick = callback.onSkipPrev,
+                    onClick = { /*TODO*/ },
                     enabled = false
                 ) {
-                    Icon(
-                        imageVector = Icons.Rounded.SkipPrevious,
-                        contentDescription = stringResource(id = R.string.music_action),
-                        tint = CostumeTheme().textBold
+                    Text(
+                        text = music.duration,
+                        textAlign = TextAlign.Center,
+                        color = costumeTheme().textBold
                     )
                 }
                 IconButton(onClick = callback.onPause) {
                     Icon(
                         imageVector = Icons.Rounded.PauseCircle,
                         contentDescription = stringResource(id = R.string.music_action),
-                        tint = CostumeTheme().primary
+                        tint = costumeTheme().primary
                     )
 
                 }
-                IconButton(onClick = callback.onSkipNext) {
+                IconButton(onClick = callback.onMoreButtonClick) {
                     Icon(
-                        imageVector = Icons.Rounded.SkipNext,
+                        imageVector = Icons.Rounded.MoreVert,
                         contentDescription = stringResource(id = R.string.more_option),
-                        tint = CostumeTheme().textBold
+                        tint = costumeTheme().textBold
                     )
                 }
             }
@@ -128,18 +138,20 @@ fun MusicPlayingContainer(
 
 @Preview
 @Composable
-fun MusicPlayingContainerPreview() {
-    MusicPlayingContainer(
+fun MusicContainerPreview() {
+    MusicContainer(
         music = Music(
-            title = "Just Like You",
+            title = "The Search",
             artist = "NF",
-            duration = "3:20"
+            albumCover = null,
+            duration = "5:30"
         ),
         callback = MusicContainerCallback(
             onPause = {},
+            onPlay = {},
+            onSkipNext = {},
             onSkipPrev = {},
-            onPlay = {}
+            onMoreButtonClick = {}
         )
     )
-
 }

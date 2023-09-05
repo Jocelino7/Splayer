@@ -1,21 +1,8 @@
-package com.jocelinoafonsofernandes.splayer.ui.theme.components
+package com.jocelinoafonsofernandes.splayer.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.jocelinoafonsofernandes.splayer.ui.theme.BoldTextDark
-import com.jocelinoafonsofernandes.splayer.ui.theme.BoldTextLight
-import com.jocelinoafonsofernandes.splayer.ui.theme.BoldTextReverseDark
-import com.jocelinoafonsofernandes.splayer.ui.theme.BoldTextReverseLight
-import com.jocelinoafonsofernandes.splayer.ui.theme.LightWeightTextDark
-import com.jocelinoafonsofernandes.splayer.ui.theme.LightWeightTextLight
-import com.jocelinoafonsofernandes.splayer.ui.theme.PrimaryColor
-import com.jocelinoafonsofernandes.splayer.ui.theme.PrimaryContainerDark
-import com.jocelinoafonsofernandes.splayer.ui.theme.PrimaryContainerLight
-import com.jocelinoafonsofernandes.splayer.ui.theme.PrimaryContainerReverseDark
-import com.jocelinoafonsofernandes.splayer.ui.theme.PrimaryContainerReverseLight
-import com.jocelinoafonsofernandes.splayer.ui.theme.SecondaryDark
-import com.jocelinoafonsofernandes.splayer.ui.theme.SecondaryLight
 
 data class CostumeTheme(
     val primary: Color,
@@ -28,7 +15,7 @@ data class CostumeTheme(
 )
 
 @Composable
-fun CostumeTheme(): CostumeTheme {
+fun costumeTheme(): CostumeTheme {
     if (isSystemInDarkTheme()) {
         return CostumeTheme(
             primary = PrimaryColor,
