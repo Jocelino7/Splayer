@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PauseCircle
 import androidx.compose.material.icons.rounded.SkipNext
@@ -19,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,7 +29,7 @@ import com.jocelinoafonsofernandes.splayer.R
 import com.jocelinoafonsofernandes.splayer.data.entities.Music
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.UnknownAlbum
+import com.jocelinoafonsofernandes.splayer.ui.theme.components.UnknownElement
 
 @Composable
 fun MusicPlayingContainer(
@@ -54,7 +52,7 @@ fun MusicPlayingContainer(
                     .fillMaxHeight(),
                 contentScale = ContentScale.Fit
             )
-        } ?: UnknownAlbum()
+        } ?: UnknownElement()
 
         Column(
             Modifier

@@ -34,7 +34,7 @@ import com.jocelinoafonsofernandes.splayer.R
 import com.jocelinoafonsofernandes.splayer.data.entities.Music
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.UnknownAlbum
+import com.jocelinoafonsofernandes.splayer.ui.theme.components.UnknownElement
 
 @Composable
 fun PlaylistContainer(
@@ -66,7 +66,7 @@ fun PlaylistContainer(
                         .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Fit
                 )
-            } ?: UnknownAlbum(
+            } ?: UnknownElement(
                 Modifier
                     .clip(RoundedCornerShape(10.dp))
                     .size(50.dp)

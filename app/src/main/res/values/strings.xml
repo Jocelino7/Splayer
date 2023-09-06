@@ -8,5 +8,8 @@
     <string name="unknown_album">Unknown Album cover</string>
     <string name="tracks">tracks</string>
     <string name="repeat">repeat</string>
+    <string name="playlist_add">Add to playlist</string>
+    <string name="call_song">Add as call song</string>
+    <string name="albums">Albums</string>
 
 </resources>

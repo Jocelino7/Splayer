@@ -1,24 +1,22 @@
-package com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer
+package com.jocelinoafonsofernandes.splayer.ui.theme.screens.album.local_components
 
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlaylistAdd
-import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.PauseCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,26 +29,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jocelinoafonsofernandes.splayer.R
-import com.jocelinoafonsofernandes.splayer.data.entities.DropdownMenuItems
 import com.jocelinoafonsofernandes.splayer.data.entities.Music
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.DropDown
+import com.jocelinoafonsofernandes.splayer.data.entities.enum.UnknownEnum
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.UnknownElement
 
 
 @Composable
-fun MusicContainer(
+fun AlbumCard(
     music: Music,
     callback: MusicContainerCallback
 ) {
@@ -72,7 +66,7 @@ fun MusicContainer(
         Row(
             Modifier
                 .fillMaxWidth()
-                .heightIn(max = 60.dp),
+                .heightIn(min = 60.dp, max = 80.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
@@ -82,11 +76,23 @@ fun MusicContainer(
                     contentDescription = stringResource(id = R.string.album_cover),
                     modifier = Modifier
                         .fillMaxHeight()
-                        .width(80.dp)
+                        .width(120.dp)
                         .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Fit
                 )
-            } ?: UnknownElement()
+            } ?: UnknownElement(
+                Modifier
+                    .fillMaxHeight()
+                    .widthIn(max = 120.dp)
+                    .border(
+                        width = 2.dp,
+                        shape = CircleShape,
+                        color = costumeTheme().primary
+                    )
+                    .clip(CircleShape)
+                    .aspectRatio(1f),
+                unknownEnum = UnknownEnum.UnknownAlbum
+            )
 
             Column(
                 Modifier
@@ -108,65 +114,6 @@ fun MusicContainer(
                     color = costumeTheme().textBold
                 )
             }
-            Row(
-                Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-
-                IconButton(
-                    onClick = { /*TODO*/ },
-                    enabled = false
-                ) {
-                    Text(
-                        text = music.duration,
-                        textAlign = TextAlign.Center,
-                        color = costumeTheme().textBold
-                    )
-                }
-                IconButton(onClick = callback.onPause) {
-                    Icon(
-                        imageVector = Icons.Rounded.PauseCircle,
-                        contentDescription = stringResource(id = R.string.music_action),
-                        tint = costumeTheme().primary
-                    )
-
-                }
-                IconButton(
-                    onClick = { menuExpand = !menuExpand },
-                    modifier = Modifier.onGloballyPositioned { coordinate ->
-                        menuOffset = coordinate.parentLayoutCoordinates?.positionInWindow()!!
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.MoreVert,
-                        contentDescription = stringResource(id = R.string.more_option),
-                        tint = costumeTheme().textBold
-                    )
-                }
-                DropDown(
-                    expanded = menuExpand,
-                    onDismiss = { menuExpand = !menuExpand },
-                    items = listOf(
-                        DropdownMenuItems(
-                            title = stringResource(id = R.string.playlist_add),
-                            leadingIcon = Icons.Default.PlaylistAdd,
-                            onClick = {}
-
-                        ),
-                        DropdownMenuItems(
-                            title = stringResource(id = R.string.call_song),
-                            leadingIcon = Icons.Default.PlaylistAdd,
-                            onClick = {}
-
-                        )
-                    )
-                )
-
-
-            }
 
 
         }
@@ -180,8 +127,8 @@ fun MusicContainer(
     showBackground = true
 )
 @Composable
-fun MusicContainerPreview() {
-    MusicContainer(
+fun AlbumCardPreview() {
+    AlbumCard(
         music = Music(
             title = "The Search",
             artist = "NF",
