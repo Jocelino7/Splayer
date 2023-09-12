@@ -9,14 +9,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +31,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.jocelinoafonsofernandes.splayer.R
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
 
@@ -79,62 +79,74 @@ fun CostumeSlider() {
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun NowPlaying() {
-    Scaffold(
-        Modifier
-            .background(costumeTheme().primaryContainer)
-            .fillMaxSize(),
-        bottomBar = {
+
+    Dialog(
+        onDismissRequest = { /*TODO*/ },
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            usePlatformDefaultWidth = false,
+            dismissOnClickOutside = false
+        )
+    ) {
+        Scaffold(
+            Modifier
+                .background(costumeTheme().primaryContainer)
+                .fillMaxSize(),
+            bottomBar = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(costumeTheme().primaryContainer),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CostumeSlider()
+                    Spacer(modifier = Modifier.height(30.dp))
+                    PlayOption()
+                    Spacer(modifier = Modifier.height(30.dp))
+                }
+            }
+        ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
+                Modifier
+                    .padding(it)
+                    .fillMaxSize()
                     .background(costumeTheme().primaryContainer),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CostumeSlider()
                 Spacer(modifier = Modifier.height(30.dp))
-                PlayOption()
-                Spacer(modifier = Modifier.height(30.dp))
-            }
-        }
-    ) {
-        Column(
-            Modifier
-                .padding(it)
-                .fillMaxSize()
-                .background(costumeTheme().primaryContainer),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(10.dp))
-                    .heightIn(min = 300.dp, max = 400.dp),
-                painter = painterResource(id = R.drawable.nf_the_search),
-                contentDescription = "",
-                contentScale = ContentScale.FillHeight,
-                alignment = Alignment.Center,
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(30.dp))
+                        .heightIn(min = 300.dp, max = 400.dp),
+                    painter = painterResource(id = R.drawable.nf_the_search),
+                    contentDescription = "",
+                    contentScale = ContentScale.FillHeight,
+                    alignment = Alignment.Center,
 
+                    )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "kid see ghost",
+                    color = costumeTheme().lightWeightText,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyLarge
                 )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = "kid see ghost",
-                color = costumeTheme().lightWeightText,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Text(
-                text = "Dimensions Of Horizon Feat Post Malone",
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.headlineLarge,
-                color = costumeTheme().textBold,
-                modifier = Modifier.basicMarquee()
-                    .padding(horizontal=10.dp)
-            )
+                Text(
+                    text = "Dimensions Of Horizon Feat Post Malone",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = costumeTheme().textBold,
+                    modifier = Modifier
+                        .basicMarquee()
+                        .padding(horizontal = 10.dp)
+                )
+
+            }
 
         }
 
     }
-
 }
 
 @Preview(

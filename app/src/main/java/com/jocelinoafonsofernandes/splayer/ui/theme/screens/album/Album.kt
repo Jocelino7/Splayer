@@ -34,9 +34,6 @@ fun AlbumScreen(album: Album) {
                 title = "Mansion",
                 artist = "NF",
                 year = "2016",
-                tracks = 10,
-                minutes = 60
-
             )
         )
         AlbumOptions(album)
@@ -84,8 +81,6 @@ fun AlbumPreview() {
             title = "Mansion",
             artist = "NF",
             year = "2016",
-            tracks = 12,
-            minutes = 120
         )
     )
 }

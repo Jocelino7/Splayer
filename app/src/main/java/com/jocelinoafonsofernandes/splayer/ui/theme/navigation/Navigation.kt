@@ -1,24 +1,22 @@
 package com.jocelinoafonsofernandes.splayer.ui.theme.navigation
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.jocelinoafonsofernandes.splayer.data.entities.Music
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.NowPlaying
+import com.jocelinoafonsofernandes.splayer.data.callbacks.NavigationCallBack
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.MusicPlayingContainer
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
 import com.jocelinoafonsofernandes.splayer.ui.theme.navigation.navigationModules.mainNavigationRoute
@@ -30,43 +28,44 @@ import com.jocelinoafonsofernandes.splayer.ui.theme.navigation.routes.ModulesRou
 @Composable
 fun Navigation(
     navController: NavHostController,
+    navigationCallBack: NavigationCallBack
 ) {
+    val scaffoldState = rememberBottomSheetScaffoldState()
     val sheetState = rememberModalBottomSheetState()
-    var showSheet by rememberSaveable {
-        mutableStateOf(true)
-
+    LaunchedEffect(key1 = scaffoldState.bottomSheetState) {
+        sheetState.show()
     }
-    //LaunchedEffect(key1 = showSheet) {
-    //  showSheet = true
-    //}
+
     Scaffold(
         topBar = { },
-        bottomBar = { BottomBar(navController = navController) }
-    ) { paddingValues ->
-        if (showSheet) {
-            ModalBottomSheet(
-                onDismissRequest = { /*TODO*/ },
-                content = {
-                    if (sheetState.hasPartiallyExpandedState) {
-                        MusicPlayingContainer(music = Music(), callback = MusicContainerCallback())
-                    } else {
-                        NowPlaying()
-                    }
-                },
-                sheetState = sheetState,
-                dragHandle = {}
-            )
+        bottomBar = {
+            Column {
+                MusicPlayingContainer(
+                    music = Music(
+                        title = "titlulo",
+                        artist = "Artidt",
+                    ),
+                    callback = MusicContainerCallback()
+                )
+                BottomBar(navController = navController)
+            }
 
-        }
+        },
 
+        ) { paddingValues ->
         NavHost(
+            modifier = Modifier.padding(paddingValues),
             navController = navController,
             startDestination = ModulesRoutes.MainNavigationModule().route,
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            mainNavigationRoute()
-            playlistNavigation()
+
+            ) {
+            mainNavigationRoute(
+                showBottomNav = navigationCallBack.showBottomNavBar,
+                viewModelHolder = navigationCallBack.viewModelHodler!!
+            )
+            playlistNavigation(hideBottomBar = navigationCallBack.hideBottomNavBar)
         }
+
     }
 
 
@@ -75,9 +74,17 @@ fun Navigation(
 @Preview(name = "Navigation")
 @Preview(
     name = "Navigation",
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    device = Devices.PIXEL_3_XL
 )
 @Composable
 fun NavigationPreview() {
-    Navigation(navController = rememberNavController())
+    Navigation(
+        navController = rememberNavController(),
+        navigationCallBack = NavigationCallBack(
+            hideBottomNavBar = {},
+            showBottomNavBar = {},
+            showBottomNavigation = true
+        )
+    )
 }
