@@ -31,7 +31,7 @@ fun BottomBar(navController: NavController) {
         containerColor = costumeTheme().primaryContainer,
         tonalElevation = 2.dp,
 
-    ) {
+        ) {
         items.forEach { item ->
             val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
             NavigationBarItem(
@@ -54,7 +54,7 @@ fun BottomBar(navController: NavController) {
                         imageVector = if (selected)
                             item.selectedIcon else item.unselectedIcon,
                         contentDescription = item.route,
-                        tint = costumeTheme().primary
+                        tint = costumeTheme().primary,
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(

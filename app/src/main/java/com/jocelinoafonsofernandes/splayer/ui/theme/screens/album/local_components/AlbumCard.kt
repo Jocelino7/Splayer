@@ -37,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jocelinoafonsofernandes.splayer.R
 import com.jocelinoafonsofernandes.splayer.data.entities.Music
-import com.jocelinoafonsofernandes.splayer.data.entities.enum.UnknownEnum
+import com.jocelinoafonsofernandes.splayer.data.enum.UnknownEnum
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.UnknownElement
@@ -76,8 +76,9 @@ fun AlbumCard(
                     contentDescription = stringResource(id = R.string.album_cover),
                     modifier = Modifier
                         .fillMaxHeight()
-                        .width(120.dp)
-                        .clip(RoundedCornerShape(10.dp)),
+                        .widthIn(max = 80.dp)
+                        .clip(CircleShape)
+                        .aspectRatio(1f),
                     contentScale = ContentScale.Fit
                 )
             } ?: UnknownElement(

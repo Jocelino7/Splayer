@@ -29,7 +29,7 @@ fun AlbumOptions(album: Album) {
             .background(costumeTheme().primaryContainer)
     ) {
         Text(
-            text = "${album.tracks} ${stringResource(id = R.string.tracks)}-${album.minutes}",
+            text = "${album.tracks} ${stringResource(id = R.string.tracks)}-${album.albumDuration}",
             fontWeight = FontWeight.Bold,
             color = costumeTheme().textBold
         )

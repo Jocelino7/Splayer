@@ -1,4 +1,4 @@
-package com.jocelinoafonsofernandes.splayer.data.entities.enum
+package com.jocelinoafonsofernandes.splayer.data.enum
 
 enum class UnknownEnum {
     UnknownAlbum, UnknownArtist, UnknownMusic

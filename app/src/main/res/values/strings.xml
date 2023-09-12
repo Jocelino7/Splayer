@@ -11,5 +11,11 @@
     <string name="playlist_add">Add to playlist</string>
     <string name="call_song">Add as call song</string>
     <string name="albums">Albums</string>
+    <string name="artists">Artists</string>
+    <string name="from">From</string>
+    <string name="add_playlist">Add Playlist</string>
+    <string name="add">Add</string>
+    <string name="name_your_playlist">Name Your Playlist</string>
+    <string name="create_playlist">Create Playlist</string>
 
 </resources>

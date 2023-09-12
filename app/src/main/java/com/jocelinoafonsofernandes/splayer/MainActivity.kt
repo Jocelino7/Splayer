@@ -6,15 +6,24 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.jocelinoafonsofernandes.splayer.data.callbacks.NavigationCallBack
+import com.jocelinoafonsofernandes.splayer.data.provider.ViewModelProvider
 import com.jocelinoafonsofernandes.splayer.ui.theme.SplayerTheme
 import com.jocelinoafonsofernandes.splayer.ui.theme.navigation.Navigation
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var viewModelProvider: ViewModelProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -24,26 +33,30 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    var showBottomNavbar by remember {
+                        mutableStateOf(true)
+                    }
+                    val hideBottomNavBar = {
+                        showBottomNavbar = false
+                    }
+                    val showBottomNav = {
+                        showBottomNavbar = true
+
+                    }
                     val navController = rememberNavController()
-                    Navigation(navController = navController)
+                    Navigation(
+                        navController = navController,
+                        navigationCallBack = NavigationCallBack(
+                            hideBottomNavBar = hideBottomNavBar,
+                            showBottomNavBar = showBottomNav,
+                            showBottomNavigation = showBottomNavbar,
+                            viewModelHodler = viewModelProvider.provideViewModels()
+                        )
+                    )
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SplayerTheme {
-        Greeting("Android")
-    }
-}

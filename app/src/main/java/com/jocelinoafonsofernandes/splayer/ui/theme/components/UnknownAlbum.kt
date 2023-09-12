@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jocelinoafonsofernandes.splayer.R
-import com.jocelinoafonsofernandes.splayer.data.entities.enum.UnknownEnum
+import com.jocelinoafonsofernandes.splayer.data.enum.UnknownEnum
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
 
 @Composable
