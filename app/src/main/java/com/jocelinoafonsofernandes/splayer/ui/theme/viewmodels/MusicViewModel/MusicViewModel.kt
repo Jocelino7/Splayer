@@ -20,6 +20,9 @@ class MusicViewModel @Inject constructor(
     private val musicRepository: IMusicRepository
 ) : ViewModel() {
     var state by mutableStateOf(MusicState())
+
+
+
     fun getAllMusic() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {

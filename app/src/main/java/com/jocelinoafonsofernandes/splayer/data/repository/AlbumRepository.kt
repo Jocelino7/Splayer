@@ -40,9 +40,10 @@ class AlbumRepository @Inject constructor(
             val albumArtColumnIndex = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART)
             val numSongsColumnIndex = cursor.getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS)
             val yearColumnIndex = cursor.getColumnIndex(MediaStore.Audio.Albums.FIRST_YEAR)
-            val albumId = cursor.getLong(idColumnIndex)
+
 
             while (cursor.moveToNext()) {
+                val albumId = cursor.getLong(idColumnIndex)
                 albums.add(
                     Album(
                         albumId = albumId,

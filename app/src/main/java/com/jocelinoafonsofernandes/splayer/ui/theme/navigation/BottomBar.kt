@@ -15,6 +15,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
+import com.jocelinoafonsofernandes.splayer.ui.theme.navigation.routes.AlbumRoute
 import com.jocelinoafonsofernandes.splayer.ui.theme.navigation.routes.MainRoutes
 
 @Composable
@@ -50,12 +51,14 @@ fun BottomBar(navController: NavController) {
                     }
                 },
                 icon = {
-                    Icon(
-                        imageVector = if (selected)
-                            item.selectedIcon else item.unselectedIcon,
-                        contentDescription = item.route,
-                        tint = costumeTheme().primary,
-                    )
+                    (if (selected)
+                        item.selectedIcon else item.unselectedIcon)?.let {
+                        Icon(
+                            imageVector = it,
+                            contentDescription = item.route,
+                            tint = costumeTheme().primary,
+                        )
+                    }
                 },
                 colors = NavigationBarItemDefaults.colors(
                     unselectedTextColor = costumeTheme().lightWeightText,

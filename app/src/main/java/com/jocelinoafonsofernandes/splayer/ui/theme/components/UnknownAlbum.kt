@@ -3,6 +3,7 @@ package com.jocelinoafonsofernandes.splayer.ui.theme.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Album
@@ -33,6 +34,7 @@ fun UnknownElement(
         modifier = modifier
             .width(50.dp)
             .fillMaxHeight()
+            .heightIn(max=100.dp)
             .background(color = costumeTheme().primaryContainerReverse),
         contentAlignment = Alignment.Center
     ) {

@@ -12,21 +12,38 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.jocelinoafonsofernandes.splayer.R
-import com.jocelinoafonsofernandes.splayer.data.entities.Music
+import com.jocelinoafonsofernandes.splayer.data.entities.Album
+import com.jocelinoafonsofernandes.splayer.ui.theme.components.isInPreview
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.MusicContainer
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
 import com.jocelinoafonsofernandes.splayer.ui.theme.screens.album.local_components.AlbumCard
+import com.jocelinoafonsofernandes.splayer.ui.theme.viewmodels.albumViewModel.AlbumEvents
+import com.jocelinoafonsofernandes.splayer.ui.theme.viewmodels.albumViewModel.AlbumState
+
+data class AlbumCallback(
+    val onAlbumCardListener: () -> Unit
+)
 
 @Composable
-fun Albums() {
+fun AlbumList(
+    onEvent: (AlbumEvents) -> Unit,
+    state: AlbumState,
+    navController: NavController
+) {
+    val isInPreview = isInPreview()
+    DisposableEffect(true) {
+        onEvent(AlbumEvents.GetAllAlbums)
+        onDispose { }
+    }
     Column(
         Modifier
             .fillMaxSize()
@@ -46,13 +63,31 @@ fun Albums() {
                 .weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(10) {
-                AlbumCard(
-                    music = Music(title = "The search", artist = "NF"),
-                    callback = MusicContainerCallback()
-                )
-                Spacer(modifier = Modifier.height(10.dp))
+            if (isInPreview) {
+                items(10) {
+                    AlbumCard(
+                        album = Album(title = "The search", artist = "NF"),
+                        callback = AlbumCallback {
+
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+            } else {
+                items(state.albums.size) {
+                    val album = state.albums[it]
+                    AlbumCard(
+                        album = album,
+                        callback = AlbumCallback {
+                            onEvent(AlbumEvents.UpdateSharedAlbumParameter(album))
+                            onEvent(AlbumEvents.NavigateToAlbumScreen(navController))
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+
             }
+
         }
 
     }
@@ -64,5 +99,9 @@ fun Albums() {
 @Preview()
 @Composable
 fun AlbumsPreview() {
-    Albums()
+    AlbumList(
+        onEvent = {},
+        state = AlbumState(),
+        navController = rememberNavController()
+    )
 }

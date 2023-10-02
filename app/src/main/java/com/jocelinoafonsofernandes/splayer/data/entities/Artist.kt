@@ -6,8 +6,8 @@ data class Artist(
     val artistId: Long = 0,
     val artistName: String = "",
     val artistKey: String = "",
-    val artistArtUri: Uri?,
-    val albumsUri: Uri?,
-    val albums: MutableList<Album>,
+    val artistArtUri: Uri?=null,
+    val albumsUri: Uri?=null,
+    val albums: MutableList<Album> = mutableListOf(),
 )
 

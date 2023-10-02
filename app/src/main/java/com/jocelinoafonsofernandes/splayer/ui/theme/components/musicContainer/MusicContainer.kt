@@ -1,15 +1,17 @@
 package com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer
 
 
-import androidx.compose.foundation.Image
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlaylistAdd
@@ -33,13 +35,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.jocelinoafonsofernandes.splayer.R
 import com.jocelinoafonsofernandes.splayer.data.entities.DropdownMenuItems
 import com.jocelinoafonsofernandes.splayer.data.entities.Music
@@ -61,13 +63,14 @@ fun MusicContainer(
         mutableStateOf(Offset(0f, 0f))
     }
     Card(
-        Modifier.padding(2.dp),
+        Modifier.padding(vertical = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = costumeTheme().primaryContainer,
         ),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 2.dp
-        )
+        ),
+        shape = RoundedCornerShape(10.dp)
     ) {
         Row(
             Modifier
@@ -76,14 +79,15 @@ fun MusicContainer(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            music.albumCover?.let {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
+            music.albumArtUriWithAlbumId?.let { uri ->
+                Log.d("MusicUr",uri.toString())
+                AsyncImage(
+                    model =uri,
                     contentDescription = stringResource(id = R.string.album_cover),
                     modifier = Modifier
                         .fillMaxHeight()
-                        .width(80.dp)
-                        .clip(RoundedCornerShape(10.dp)),
+                        .widthIn(max = 80.dp)
+                        .aspectRatio(1f),
                     contentScale = ContentScale.Fit
                 )
             } ?: UnknownElement()
@@ -105,7 +109,8 @@ fun MusicContainer(
                 Text(
                     text = music.artist,
                     fontWeight = FontWeight.Bold,
-                    color = costumeTheme().textBold
+                    color = costumeTheme().textBold,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             Row(
@@ -123,7 +128,8 @@ fun MusicContainer(
                     Text(
                         text = music.duration,
                         textAlign = TextAlign.Center,
-                        color = costumeTheme().textBold
+                        color = costumeTheme().textBold,
+                        maxLines = 1
                     )
                 }
                 IconButton(onClick = callback.onPause) {

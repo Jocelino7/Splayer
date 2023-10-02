@@ -39,11 +39,12 @@ class MusicHelper @Inject constructor(
             val artistColumnIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
             val pathColumnIndex = cursor.getColumnIndex(MediaStore.Audio.Media.DATA)
             val durationColumnIndex = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
-            val duration = cursor.getLong(durationColumnIndex)
-            val durationFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
-            val formattedDuration = durationFormat.format(Date(duration))
+
 
             while (cursor.moveToNext()) {
+                val duration = cursor.getLong(durationColumnIndex)
+                val durationFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
+                val formattedDuration = durationFormat.format(Date(duration))
                 val albumArtUri = Uri.parse("content://media/external/audio/albumart")
                 val albumArtUriWithAlbumId = ContentUris.withAppendedId(albumArtUri, albumId)
                 val songPath = cursor.getString(pathColumnIndex)

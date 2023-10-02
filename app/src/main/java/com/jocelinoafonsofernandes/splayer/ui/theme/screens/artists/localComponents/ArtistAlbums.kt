@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,14 +17,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.jocelinoafonsofernandes.splayer.R
-import com.jocelinoafonsofernandes.splayer.data.entities.Music
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
+import com.jocelinoafonsofernandes.splayer.ui.theme.components.isInPreview
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
+import com.jocelinoafonsofernandes.splayer.ui.theme.screens.album.AlbumCallback
 import com.jocelinoafonsofernandes.splayer.ui.theme.screens.album.local_components.AlbumCard
+import com.jocelinoafonsofernandes.splayer.ui.theme.viewmodels.artisViewModel.events.ArtistEvents
+import com.jocelinoafonsofernandes.splayer.ui.theme.viewmodels.artisViewModel.state.ArtistState
 
 @Composable
-fun ArtistAlbums() {
+fun ArtistAlbums(
+    state: ArtistState,
+    onEvent: (ArtistEvents) -> Unit,
+    navController: NavController
+) {
+    val isInPreview = isInPreview()
     Column(
         Modifier
             .fillMaxSize()
@@ -33,7 +41,7 @@ fun ArtistAlbums() {
             .padding(5.dp)
     ) {
         Text(
-            text = "${stringResource(id = R.string.from)} NF",
+            text = "${stringResource(id = R.string.from)} ${state.artistParameter!!.artistName}" ,
             style = MaterialTheme.typography.headlineSmall,
             color = costumeTheme().textBold,
             fontWeight = FontWeight.Bold
@@ -45,20 +53,40 @@ fun ArtistAlbums() {
                 .weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(10) {
-                AlbumCard(
-                    music = Music(
-                        artist = "Nf",
-                        title = "Leave me alone"
-                    ),
-                    callback = MusicContainerCallback()
-                )
-                Spacer(modifier = Modifier.height(10.dp))
+            if (isInPreview) {
+                items(10) {
+                    AlbumCard(
+                        album = state.albumPreviewParameter,
+                        callback = AlbumCallback { }
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+            } else {
+                items(state.artistParameter!!.albums.size) {
+                    val album = state.artistParameter.albums[it]
+                    AlbumCard(
+                        album = album,
+                        callback = AlbumCallback(
+                            onAlbumCardListener = {
+                                onEvent(
+                                    ArtistEvents.UpdateSharedAlbumParameter(
+                                        album
+                                    )
+                                )
+                                onEvent(
+                                    ArtistEvents.NavigateToAlbum(
+                                        navController = navController
+                                    )
+                                )
+                            }
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
             }
         }
 
     }
-
 }
 
 
@@ -66,5 +94,9 @@ fun ArtistAlbums() {
 @Preview()
 @Composable
 fun ArtistAlbumsPreview() {
-    ArtistAlbums()
+    ArtistAlbums(
+        state = ArtistState(),
+        onEvent = {},
+        navController = rememberNavController()
+    )
 }

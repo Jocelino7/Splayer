@@ -1,8 +1,8 @@
 package com.jocelinoafonsofernandes.splayer.ui.theme.screens.album.local_components
 
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,10 +11,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -29,24 +27,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.jocelinoafonsofernandes.splayer.R
-import com.jocelinoafonsofernandes.splayer.data.entities.Music
+import com.jocelinoafonsofernandes.splayer.data.entities.Album
 import com.jocelinoafonsofernandes.splayer.data.enum.UnknownEnum
 import com.jocelinoafonsofernandes.splayer.ui.theme.costumeTheme
-import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.UnknownElement
+import com.jocelinoafonsofernandes.splayer.ui.theme.screens.album.AlbumCallback
 
 
 @Composable
 fun AlbumCard(
-    music: Music,
-    callback: MusicContainerCallback
+    album: Album,
+    callback: AlbumCallback
 ) {
     var menuExpand by remember {
         mutableStateOf(false)
@@ -55,7 +53,10 @@ fun AlbumCard(
         mutableStateOf(Offset(0f, 0f))
     }
     Card(
-        Modifier.padding(2.dp),
+        Modifier.padding(2.dp)
+            .clickable {
+                callback.onAlbumCardListener()
+            },
         colors = CardDefaults.cardColors(
             containerColor = costumeTheme().primaryContainer,
         ),
@@ -70,13 +71,13 @@ fun AlbumCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            music.albumCover?.let {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
+            album.albumCover?.let { uri ->
+                AsyncImage(
+                    model = uri,
                     contentDescription = stringResource(id = R.string.album_cover),
                     modifier = Modifier
                         .fillMaxHeight()
-                        .widthIn(max = 80.dp)
+                        .widthIn(max = 60.dp)
                         .clip(CircleShape)
                         .aspectRatio(1f),
                     contentScale = ContentScale.Fit
@@ -84,7 +85,7 @@ fun AlbumCard(
             } ?: UnknownElement(
                 Modifier
                     .fillMaxHeight()
-                    .widthIn(max = 120.dp)
+                    .widthIn(max = 80.dp)
                     .border(
                         width = 2.dp,
                         shape = CircleShape,
@@ -102,7 +103,7 @@ fun AlbumCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = music.title,
+                    text = album.title,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = costumeTheme().textBold,
@@ -110,7 +111,7 @@ fun AlbumCard(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = music.artist,
+                    text = album.artist,
                     fontWeight = FontWeight.Bold,
                     color = costumeTheme().textBold
                 )
@@ -130,18 +131,14 @@ fun AlbumCard(
 @Composable
 fun AlbumCardPreview() {
     AlbumCard(
-        music = Music(
+        album = Album(
             title = "The Search",
             artist = "NF",
             albumCover = null,
-            duration = "5:30"
         ),
-        callback = MusicContainerCallback(
-            onPause = {},
-            onPlay = {},
-            onSkipNext = {},
-            onSkipPrev = {},
-            onMoreButtonClick = {}
+        callback = AlbumCallback(
+            onAlbumCardListener = {}
+
         )
     )
 }

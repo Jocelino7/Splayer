@@ -7,7 +7,7 @@ import com.jocelinoafonsofernandes.splayer.data.repository.PlaylistRepository
 import com.jocelinoafonsofernandes.splayer.data.repository.interfaces.IAlbumRepository
 import com.jocelinoafonsofernandes.splayer.data.repository.interfaces.IArtistRepository
 import com.jocelinoafonsofernandes.splayer.data.repository.interfaces.IMusicRepository
-import com.jocelinoafonsofernandes.splayer.data.repository.interfaces.IPlayListRepository
+import com.jocelinoafonsofernandes.splayer.data.repository.interfaces.PlaylistDAo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -35,6 +35,6 @@ abstract class InterfacesProvider {
     @Binds
     abstract fun bindsIPlaylistRepository(
         playlistRepository: PlaylistRepository
-    ): IPlayListRepository
+    ): PlaylistDAo
 
 }

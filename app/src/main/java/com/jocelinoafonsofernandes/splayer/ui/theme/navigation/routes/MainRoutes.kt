@@ -13,18 +13,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class MainRoutes(
     val route:String,
-    val selectedIcon:ImageVector,
-    val unselectedIcon:ImageVector
+    val selectedIcon:ImageVector?=null,
+    val unselectedIcon:ImageVector?=null
 ){
     class Home():MainRoutes(
         route = "Music",
         selectedIcon = Icons.Outlined.MusicNote,
         unselectedIcon = Icons.Filled.MusicNote
-    )
-    class Album():MainRoutes(
-        route = "Album",
-        selectedIcon = Icons.Outlined.Album,
-        unselectedIcon = Icons.Filled.Album
     )
     class Artist():MainRoutes(
         route = "Artist",
@@ -35,6 +30,11 @@ sealed class MainRoutes(
         route = "PlayList",
         selectedIcon = Icons.Outlined.PlaylistPlay,
         unselectedIcon = Icons.Filled.PlaylistPlay
+    )
+    class Album():MainRoutes(
+        route = "Album",
+        selectedIcon = Icons.Outlined.Album,
+        unselectedIcon = Icons.Filled.Album
     )
 
 }

@@ -17,5 +17,6 @@
     <string name="add">Add</string>
     <string name="name_your_playlist">Name Your Playlist</string>
     <string name="create_playlist">Create Playlist</string>
+    <string name="permission_rational">Splayer needs this permission in order to fetch and play your musics</string>
 
 </resources>

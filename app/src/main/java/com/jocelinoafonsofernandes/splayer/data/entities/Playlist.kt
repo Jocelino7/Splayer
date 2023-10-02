@@ -1,7 +1,12 @@
 package com.jocelinoafonsofernandes.splayer.data.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class Playlist(
-    val id: String,
-    val name: String,
-    val music: List<Music>
+    @PrimaryKey val id: Int,
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "Music") val musics: List<Music>
 )

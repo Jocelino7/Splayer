@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jocelinoafonsofernandes.splayer.data.entities.Music
 import com.jocelinoafonsofernandes.splayer.data.callbacks.NavigationCallBack
@@ -21,7 +22,10 @@ import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.Mu
 import com.jocelinoafonsofernandes.splayer.ui.theme.components.musicContainer.callbacks.MusicContainerCallback
 import com.jocelinoafonsofernandes.splayer.ui.theme.navigation.navigationModules.mainNavigationRoute
 import com.jocelinoafonsofernandes.splayer.ui.theme.navigation.navigationModules.playlistNavigation
+import com.jocelinoafonsofernandes.splayer.ui.theme.navigation.routes.AlbumRoute
 import com.jocelinoafonsofernandes.splayer.ui.theme.navigation.routes.ModulesRoutes
+import com.jocelinoafonsofernandes.splayer.ui.theme.screens.album.AlbumScreen
+import com.jocelinoafonsofernandes.splayer.ui.theme.screens.artists.localComponents.ArtistAlbums
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,9 +65,30 @@ fun Navigation(
             ) {
             mainNavigationRoute(
                 showBottomNav = navigationCallBack.showBottomNavBar,
-                viewModelHolder = navigationCallBack.viewModelHodler!!
+                viewModelHolder = navigationCallBack.viewModelHodler!!,
+                navController = navController
             )
             playlistNavigation(hideBottomBar = navigationCallBack.hideBottomNavBar)
+            composable(
+                route = AlbumRoute.AlbumScreen().route,
+            ) {
+                navigationCallBack.hideBottomNavBar()
+                AlbumScreen(
+                    state = navigationCallBack.viewModelHodler.albumViewModel.state,
+                    onEvent = navigationCallBack.viewModelHodler.albumViewModel::onEvent
+                )
+            }
+            composable(
+                route = AlbumRoute.ArtistAlbum().route,
+            ) {
+                navigationCallBack.hideBottomNavBar()
+                ArtistAlbums(
+                    state = navigationCallBack.viewModelHodler.artistViewModel.state,
+                    onEvent = navigationCallBack.viewModelHodler.artistViewModel::onEvent,
+                    navController = navController
+                )
+            }
+
         }
 
     }
